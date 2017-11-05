@@ -1,6 +1,6 @@
 #include "blockwr.h"
 
-#if defined(__i386)
+#if defined(__x86) || defined(__x86_64)
 #  include <immintrin.h>
    typedef __v8sf VECTORTYPE;
 #elif defined(__arm__) || defined (__aarch64__)
