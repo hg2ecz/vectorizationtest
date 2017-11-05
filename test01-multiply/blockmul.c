@@ -11,7 +11,30 @@
 
 #define VECTORLEN (sizeof(VECTORTYPE)/sizeof(float))
 
-void multest(complex float *out, const complex float *a, const complex float *b, int len) {
+
+void multest_c(complex float *out, const complex float *a, const complex float *b, int len) {
+    for (int i=0; i<len; i++) {
+	out[i] = creal(a[i])*creal(b[i]) - cimag(a[i])*cimag(b[i]) + I*(creal(a[i])*cimag(b[i]) + cimag(a[i])*creal(b[i]));
+    }
+}
+
+void multest_v(struct _cplxvec *out, const struct _cplxvec *a, const struct _cplxvec *b, int len) {
+    const float *a_re = a->re;
+    const float *a_im = a->im;
+    const float *b_re = b->re;
+    const float *b_im = b->im;
+    float *out_re = out->re;
+    float *out_im = out->im;
+
+    for (int i=0; i<len; i++) {
+	out_re[i] = a_re[i]*b_re[i] - a_im[i]*b_im[i];
+	out_im[i] = a_re[i]*b_im[i] + a_im[i]*b_re[i];
+    }
+}
+
+
+
+void multest_cplx(complex float *out, const complex float *a, const complex float *b, int len) {
     for (int i=0; i<len; i++) {
 	out[i]=a[i]*b[i];
     }
